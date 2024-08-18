@@ -1,9 +1,10 @@
 import { Container } from 'postcss'
 import React from 'react'
 import { useState, useEffect } from 'react';
-import { Button } from "@mui/material";
+import { Button, Dialog, DialogTitle, DialogContent, Stack, TextField, IconButton } from "@mui/material";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import CloseIcon from "@mui/icons-material/Close"
 
 const Home = () => {
 
@@ -27,6 +28,15 @@ const Home = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
+
+  const [open,IsOpen] = useState(false);
+  const openPopUp=()=>{
+    IsOpen(true)
+  }
+  const closePopUp=()=>{
+    IsOpen(false)
+  }
+
   return (
     <div className="container">
         
@@ -37,12 +47,24 @@ const Home = () => {
               <Button  
                 variant="contained"
                 color="primary"
+                onClick={openPopUp}
                 size={isSmallScreen ? 'small' : 'medium'}
                 sx={{
                   fontSize: isSmallScreen ? '0.7rem' : '1rem', // Adjust font size
                   padding: isSmallScreen ? '5px 10px' : '8px 16px', // Adjust padding
                 }}
                 >Add Notes</Button>
+
+              <Dialog open={open} fullWidth maxWidth="sm">
+                <DialogTitle color="primary">Add New Note <IconButton style={{float:"right"}} color="primary" onClick={closePopUp}><CloseIcon></CloseIcon></IconButton></DialogTitle>
+                <DialogContent>
+                  <Stack spacing={2} margin={2}>
+                    <TextField variant='outlined' label="Title"></TextField>
+                    <TextField variant='outlined' multiline rows={8} fullWidth label="Note"></TextField>
+                    <Button color="primary" variant='contained'>Submit</Button>
+                  </Stack>
+                </DialogContent>
+              </Dialog>
 
                 {/* Card */}
                 {notes.map((note)=>(
