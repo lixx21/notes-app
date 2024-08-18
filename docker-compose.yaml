@@ -6,13 +6,28 @@ services:
     build: ./backend
     container_name: notes-app-backend
     volumes:
-      - ./backend:/app
+      - ./backend:/app/backend:delegated
+      - /app/backend/node_modules # Ensure node_modules inside container are used
     ports:
       - "3000:3000"
     networks:
       - network
     depends_on:
       - postgredb
+    restart: always
+  
+  notes-frontend:
+    build: ./frontend
+    container_name: notes-app-frontend
+    volumes:
+      - ./frontend:/app/frontend:delegated
+      - /app/frontend/node_modules # Ensure node_modules inside container are used
+    ports:
+      - "5173:5173"
+    networks:
+      - network
+    depends_on:
+      - notes-backend
     restart: always
 
   postgredb:
