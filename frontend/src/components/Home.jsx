@@ -106,14 +106,17 @@ const Home = () => {
                   </form>
                 </DialogContent>
               </Dialog>
-
+                
+              <div className="flex flex-wrap max-w-full grid grid-cols-1  gap-6 max-w-full md:grid-cols-2 lg:grid-cols-3">
                 {/* Card */}
                 {notes.map((note)=>(
-                  <div className='max-w-full border-4 rounded-xl p-4 w-full overflow-hidden text-ellipsis'>
-                      <h3 className=' text-white font-bold text-xl lg:text-3xl'>{note.title}</h3>
-                      <p className='text-slate-300 pt-4 text-sm lg:text-lg pt-20 truncate'>{note.notes}</p>
+                  <div className='min-h-[150px] max-h-[350px] border-4 rounded-xl p-4 w-full hover:border-blue-800 hover:bg-blue-800 
+                    hover:text-white overflow-hidden text-ellipsis lg:min-h-[200px] lg:max-h-[400px]'>
+                      <h3 className='fill-current text-white font-bold text-xl lg:text-3xl'>{note.title}</h3>
+                      <p className='fill-current text-slate-300 pt-4 text-sm lg:text-lg pt-20 truncate'>{note.notes}</p>
                   </div>
                 ))}
+              </div>
 
                   {/* <div className='max-w-full border-4 rounded-xl p-4 w-full overflow-hidden text-ellipsis'>
                       <h3 className='font-bold text-xl lg:text-3xl'>Title</h3>
