@@ -9,7 +9,14 @@ export default {
       center: true,
       padding: "16px"
     },
-    extend: {},
+    extend: {
+      colors:{
+        primary: "#0ea5e9",
+        secondary: "#cbd5e1",
+        dark: "#0f172a",
+        background: "#171717"
+      },
+    },
   },
   plugins: [],
 }

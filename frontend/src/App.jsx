@@ -7,7 +7,7 @@ function App() {
 
   return (
     <BrowserRouter>
-    <div>
+    <div className='App bg-background bg-cover min-h-screen'>
         <Home />
     </div>
     </BrowserRouter>

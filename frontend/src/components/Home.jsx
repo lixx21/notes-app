@@ -64,7 +64,7 @@ const Home = () => {
         throw new Error(`HTTP error! status: ${res.status} - ${errorDetail}`);
       }
       const result = await res.json();
-      
+
       console.log(result)
       setResponse(result);
       setNotes([...notes, result]);
@@ -80,7 +80,7 @@ const Home = () => {
     <div className="container">
         
         <div className='pt-20 justify-center'>
-            <h1 className='font-bold text-center uppercase text-xl lg:text-4xl'>🚀 Welcome to My Notes 🚀</h1>
+            <h1 className='text-primary font-bold text-center uppercase text-xl lg:text-4xl'>🚀 Welcome to My Notes 🚀</h1>
             
             <div className='pt-10 px-10 flex flex-wrap max-w-full gap-4'>
               <Button  
@@ -94,7 +94,7 @@ const Home = () => {
                 }}
                 >Add Notes</Button>
 
-              <Dialog open={open} fullWidth maxWidth="sm" >
+              <Dialog open={open} fullWidth maxWidth="sm" classNam="bg-background" >
                 <DialogTitle color="primary">Add New Note <IconButton style={{float:"right"}} color="primary" onClick={closePopUp}><CloseIcon></CloseIcon></IconButton></DialogTitle>
                 <DialogContent>
                   <form onSubmit={postNote}>
@@ -110,8 +110,8 @@ const Home = () => {
                 {/* Card */}
                 {notes.map((note)=>(
                   <div className='max-w-full border-4 rounded-xl p-4 w-full overflow-hidden text-ellipsis'>
-                      <h3 className='font-bold text-xl lg:text-3xl'>{note.title}</h3>
-                      <p className='pt-4 text-sm lg:text-lg pt-20 truncate'>{note.notes}</p>
+                      <h3 className=' text-white font-bold text-xl lg:text-3xl'>{note.title}</h3>
+                      <p className='text-slate-300 pt-4 text-sm lg:text-lg pt-20 truncate'>{note.notes}</p>
                   </div>
                 ))}
 
@@ -121,8 +121,6 @@ const Home = () => {
                   </div> */}
             </div>
         </div>
-
-
     </div>
   )
 }
