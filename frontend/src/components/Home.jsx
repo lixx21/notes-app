@@ -9,6 +9,9 @@ import CloseIcon from "@mui/icons-material/Close"
 const Home = () => {
 
   const [notes, setNotes] = useState([]);
+  const [open,IsOpen] = useState(false);
+  const [response, setResponse] = useState(null);
+  const [inputData, setInputData] = useState({ title: '', notes: '' });
 
   useEffect(()=> {
     fetch('http://localhost:3000/note')
@@ -27,14 +30,50 @@ const Home = () => {
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
-
-  const [open,IsOpen] = useState(false);
+  
   const openPopUp=()=>{
     IsOpen(true)
   }
   const closePopUp=()=>{
     IsOpen(false)
+  }
+  //post
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setInputData({
+      ...inputData,
+      [name]: value,
+    });
+  };
+  
+  const postNote = async(e) =>{
+    e.preventDefault(); // Prevent the default form submission
+    console.log(inputData)
+    try{
+      const res = await fetch("http://localhost:3000/note", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(inputData)
+      })
+      if (!res.ok) {
+        // If response is not ok, throw an error
+        const errorDetail = await res.text(); // Read the error message from the response
+        throw new Error(`HTTP error! status: ${res.status} - ${errorDetail}`);
+      }
+      const result = await res.json();
+      
+      console.log(result)
+      setResponse(result);
+      setNotes([...notes, result]);
+      setInputData({ title: '', note: '' }); // Clear the form
+      closePopUp();
+    }
+    catch(error){
+      console.log("error: ", error)
+    }
   }
 
   return (
@@ -55,14 +94,16 @@ const Home = () => {
                 }}
                 >Add Notes</Button>
 
-              <Dialog open={open} fullWidth maxWidth="sm">
+              <Dialog open={open} fullWidth maxWidth="sm" >
                 <DialogTitle color="primary">Add New Note <IconButton style={{float:"right"}} color="primary" onClick={closePopUp}><CloseIcon></CloseIcon></IconButton></DialogTitle>
                 <DialogContent>
-                  <Stack spacing={2} margin={2}>
-                    <TextField variant='outlined' label="Title"></TextField>
-                    <TextField variant='outlined' multiline rows={8} fullWidth label="Note"></TextField>
-                    <Button color="primary" variant='contained'>Submit</Button>
-                  </Stack>
+                  <form onSubmit={postNote}>
+                    <Stack spacing={2} margin={2}>
+                      <TextField variant='outlined' type="text" name="title" label="Title" value={inputData.title} onChange={handleInputChange}></TextField>
+                      <TextField variant='outlined' type="text" name="notes" multiline rows={8} fullWidth label="Note" value={inputData.notes} onChange={handleInputChange}></TextField>
+                      <Button type="submit" color="primary" variant='contained'>Submit</Button>
+                    </Stack>
+                  </form>
                 </DialogContent>
               </Dialog>
 
@@ -74,10 +115,10 @@ const Home = () => {
                   </div>
                 ))}
 
-                  <div className='max-w-full border-4 rounded-xl p-4 w-full overflow-hidden text-ellipsis'>
+                  {/* <div className='max-w-full border-4 rounded-xl p-4 w-full overflow-hidden text-ellipsis'>
                       <h3 className='font-bold text-xl lg:text-3xl'>Title</h3>
                       <p className='pt-4 text-sm lg:text-lg pt-20 truncate'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis, velit reiciendis. Quasi illo fugit natus atque hic non itaque possimus aliquam, nostrum esse similique aut veniam expedita eligendi enim architecto!</p>
-                  </div>
+                  </div> */}
             </div>
         </div>
 
